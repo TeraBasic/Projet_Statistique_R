@@ -1,0 +1,71 @@
+---
+title: "Projet_Yi_Abel"
+author: "LI Yi, Abel"
+date : "24/03/2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+# package
+library(ggplot2)
+library(xlsx)
+```
+
+## Lecture de data format xls
+
+
+```{r}
+df <- read.xlsx("winequality-red.xls",1)
+str(df);
+head(df);
+```
+
+## Simple Bar Plot 
+```{r}
+counts <- table(df$quality)
+counts
+barplot(counts,
+        main = "Sommme pour chaque niveau du vin",
+        xlab = "Frequency",
+        ylab = "Qualité",
+        horiz = TRUE)
+```
+## Summary
+```{r}
+myvars <- c("fixedAcidity","residualSugar","freeSulfurDioxide","sulphates","quality")
+summary(df[myvars])
+```
+##Plot
+```{r}
+attach(df)
+opar <- par(no.readonly=TRUE)
+par(mfrow=c(2,2))
+plot(x = No, y=residualSugar,
+     main = " fixedAcidity VS quality",    
+     xlab="Quality",ylab = "Acidity",
+     pch=1,col="blue")
+plot(x = No, y=fixedAcidity,
+     main = " fixedAcidity VS quality",    
+     xlab="Quality",ylab = "Acidity",
+     pch=1,col="blue")
+plot(x = No, y=freeSulfurDioxide,
+     main = " fixedAcidity VS quality",    
+     xlab="Quality",ylab = "Acidity",
+     pch=1,col="blue")
+plot(x = No, y=sulphates,
+     main = " fixedAcidity VS quality",    
+     xlab="Quality",ylab = "Acidity",
+     pch=1,col="blue")
+par(opar)
+detach(df)
+```
+
+##Relation
+```{r}
+vars <- df[,2:9]
+vars <- as.matrix(sapply(vars, as.numeric)) 
+cor(vars)
+```
